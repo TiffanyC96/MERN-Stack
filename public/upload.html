@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Upload File Example</title>
+    </head>
+    <body>
+        <form id="myForm" onsubmit="handleSubmit(event)">
+            <input type="text" name="caption">
+            <br>
+            <input type="file" name = "image">
+            <br>
+            <button type = "submit">Submit File</button>
+        </form>
+
+        <script>
+            function handleSubmit(event){
+                event.preventDefault();
+
+                // Collect our form data and submit using fetch
+                const formData = new FormData(event.target);
+
+                // SEND this formData to an endpoint on our server
+                fetch('/api/employees/upload', {
+                    method: 'POST',
+                    body: formData
+                }) // This returns a promise
+                .then(response=> response.json()) // JSON returns a promise
+                .then(json => console.log(json))
+            }
+        </script>
+    </body>
+</html>

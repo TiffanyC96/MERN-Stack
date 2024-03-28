@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple Form</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container mt-5">
+        <div class="col-md-6 mx-auto">
+            <h2 class="mb-4">Simple Form</h2>
+
+            <form id = "myForm" action="/api/employees" method="post" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js if needed -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+    <script>
+        function handleSubmit(e){
+            e.preventDefault(); // cancel the normal submit behaviour of the form
+
+            const theForm = e.target;
+
+            // build a JSON object using our form data
+            const data = {
+                firstName : theForm.firstName.value,
+                lastName : theForm.lastName.value
+            }
+
+            // call fetch to send the data
+            fetch('/api/employees', {
+                // headers lets the server know the type of information being passed
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(data)
+            }).then(response => response.json())
+            .then(json =>{
+                alert(`New Employee created with id: ${json.lastInsertRowid}`)
+            })
+        }
+    </script>
+</body>
+</html>
